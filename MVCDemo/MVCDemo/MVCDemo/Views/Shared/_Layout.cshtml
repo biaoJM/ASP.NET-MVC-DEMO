@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/js/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/js/demo/demo.css">
+
+    <script src="@Url.Content("~/Content/js/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/jquery.easyui.min.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Content/datagrid_json_data.json")" type="application/json"></script>*@
+</head>
+
+<body>
+    <div class="menuSelect" title="项目管理" style="padding: 10px;">
+        <ul id="menu" class="west-menu">
+            @Html.ActionLink("Search", "Search")
+            @Html.ActionLink("Insert", "Insert")
+            @Html.ActionLink("Delete", "Delete")
+            @*<li><a href="Home/insert" class="leftMenuLink">insert</a></li>
+            <li><a href="Home/delete" class="leftMenuLink">delete</a></li>*@
+        </ul>
+    </div>
+
+
+    <div data-options="region:'center'">
+        @RenderBody()
+    </div>
+    @RenderSection("foot", false)
+    
+    <div id="show_data" title="this is install data list.">
+    </div>
+
+
+    @* 输入框 *@
+    <div id="dialog" class="easyui-dialog" data-options="modal:true,closed:false" title="input">
+        <form id="input_form">
+            <table style="padding: 10px 20px 10px 20px; border-collapse: separate; border-spacing: 2px 10px;">
+                <tr>
+                    <td>install id</td>
+                    <td>install city</td>
+                    <td>install type</td>
+                </tr>
+                <tr>
+                    <td><input id="installID" class="easyui-textbox" /></td>
+                    <td><input id="installCity" class="easyui-textbox" /></td>
+                    <td><input id="installType" class="easyui-textbox" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section foot{
+    <script type="text/javascript">
+
+    //设置datagrid显示方式的对象
+    @*var installData =
+    {
+        fitColumns: true,
+        pagination: true,
+        showfooter: true,
+        rownumbers: true,
+        striped: true,
+        loadMsg: "loading...",
+        singleSelect: false,
+        pageSize: 30,
+        fit: true,
+        toolbar: [{
+            text: "查询",
+            iconCls: 'icon-search',
+            handler: function () {
+                return Search();
+            }
+        }],//toolbar
+        columns:
+        [
+            [
+                { field: 'ID', title: '安装单号', align: 'center', sortable: false },
+                { field: 'City', title: '安装城市', align: 'center', sortable: false },
+                { field: 'Type', title: '呈现方式', align: 'center', sortable: false },
+            ]
+        ]//column数组
+    }//installData
+
+    //设置数据显示方式的url指向Controller的一个方法，该方法返回查询得到的数据
+    //重新加载datagrid中的数据
+    var Accept = function () {
+        installData.url = '@(Url.Action("SearchInstallDB","Home"))';
+
+        var queryParams =
+        {
+            "ID": $('#installID').textbox('getValue'),
+            "City": $('#installCity').textbox('getValue'),
+            "Type": $('#installType').textbox('getValue')
+        };
+        installData.queryParams = queryParams;
+
+        $('#show_data').datagrid(installData).datagrid('reload');
+    }
+
+    //弹出对话框，添加两个按钮（提交/取消）
+    //提交：调用Accept()函数之后关闭dialog
+    //取消：关闭dialog
+    var Search = function ()
+    {
+        $("#dialog").dialog
+        (
+            {
+                buttons:
+                [
+                    {
+                        text: "submit",
+                        iconCls: "icon-ok",
+                        handler: function () {
+                            if ($("#input_form").form('enableValidation').form('validate'))
+                            {
+                                Accept();
+                                $("#dialog").dialog("close");
+                            }
+                        }
+                    },//submit button
+                    {
+                        text: "cancle",
+                        iconCls: "icon-undo",
+                        handler: function () {
+                            $("#dialog").dialog("close");
+                        }
+                    }//cancle button
+                ]//button数组
+            }//dialog的对象参数
+        );//dialog
+    }//function Search()*@
+
+    var data = [
+            {
+                "name": "常用",
+                "city": [
+                    { "cityName": "南京", "cityNumber": "001", "selected": true },
+                    { "cityName": "上海", "cityNumber": "002" },
+                    { "cityName": "苏州", "cityNumber": "003", "selected": true }
+                ]
+            },
+            {
+                "name": "全部",
+                "city": [
+                    { "cityName": "南京", "cityNumber": "001" },
+                    { "cityName": "杭州", "cityNumber": "004" },
+                    { "cityName": "无锡", "cityNumber": "005" },
+                    { "cityName": "上海", "cityNumber": "002" },
+                    { "cityName": "苏州", "cityNumber": "003" }
+                ]
+            }
+    ];
+
+    //入口
+    $(document).ready
+    (
+        function () {
+            $('#cmbCity').combobox({
+                missingMesage: '请选择',
+                multiple: true,// 设置下拉框的值可以多选
+                type: "post",
+                onShowPanel: function () {
+                    var v = $(this).combobox('panel')[0].childElementCount;
+                    // 判断下拉框高度（如果下拉框的数值小于10个，那么下拉框高度自动显示，如果大于10个，下拉框高度最高200）
+                    if (v <= 10) {
+                        $(this).combobox('panel')
+                            .height("auto");
+                    } else {
+                        $(this).combobox('panel')
+                            .height(200);
+                    }
+                },
+                filter: function (q, row) {
+                    var opts = $(this).combobox('options');
+                    return row[opts.textField].indexOf(q) == 0;
+                },
+                //onSelect: function (row) {
+                //    var currentLine = $(this).combobox('getValue');
+                //    for (var i = currentLine.length; i >= 0 && currentLine.charAt(i) != ','; i--) {
+                //        currentLine = currentLine.subString(0, currentLine.length - 1);
+                //    }
+                //    $(this).combobox('setValue', currentLine.concat($(this).combobox('options')));
+                //}
+                onSelect: function (row) {
+                    var opts = $(this).combobox('options');
+                    var el = opts.finder.getEl(this, row[opts.valueField]);
+                    el.find('input.combobox-checkbox')._propAttr('checked', true);
+                }
+            });
+            //Search();
+        }//ready的函数参数
+    )//ready
+    </script>
+}
+<select id="cmbCity" class="easyui-combobox" style="width:200px;" onkeyup="GetName(this.value)">
+    <option>aitem1</option>
+    <option>bitem2</option>
+    <option>bitem3</option>
+    <option>ditem4</option>
+    <option>eitem5</option>
+</select>

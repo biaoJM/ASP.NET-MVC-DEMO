@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section foot{
+    <script type="text/javascript">
+        //通过Ajax向controller对应的方法发送参数数据，并执行对应方法
+        //没有返回数据
+        var Accept = function () {
+            $.ajax
+            ({
+                url: "@(Url.Action("DeleteInstallDB", "Home"))",
+                type: 'post',
+                async: true,
+                //参数model
+                data: {
+                    "ID": $('#installID').textbox('getValue'),
+                    "City": $('#installCity').textbox('getValue'),
+                    "Type": $('#installType').textbox('getValue')
+                },
+                success: function () {
+                    console.info("ajax succeed");
+                },
+                error: function () {
+                    console.info("ajax failed");
+                }
+            })//ajax
+        }//Accept
+
+        //弹出dialog，添加两个按钮（接受/取消）
+        //接受：调用Accept()函数之后关闭dialog
+        //取消：关闭dialog
+        var Delete = function ()
+        {
+            $("#dialog").dialog
+            (
+                {
+                    buttons:
+                    [
+                        {
+                            text: "submit",
+                            iconCls: "icon-ok",
+                            handler: function () {
+                                if ($("#input_form").form('enableValidation').form('validate')) {
+                                    Accept();
+                                    $("#dialog").dialog("close");
+                                }
+                            }
+                        },//submit button
+                        {
+                            text: "cancle",
+                            iconCls: "icon-undo",
+                            handler: function () {
+                                $("#dialog").dialog("close");
+                            }
+                        }//cancle button
+                    ]//button数组
+                }//dialog的对象参数
+            );//dialog   
+
+        }//function Insert()
+
+        //入口
+        $(document).ready
+        (
+            function () {
+                Delete();
+            }//ready的函数参数
+        )//ready
+    </script>
+}
